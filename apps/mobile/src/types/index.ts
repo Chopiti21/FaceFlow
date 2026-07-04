@@ -1,1 +1,123 @@
-// User Types\nexport interface User {\n  id: string;\n  email: string;\n  name: string;\n  age: number;\n  sex?: 'male' | 'female' | 'other';\n  height: number;\n  weight?: number;\n  skinType: 'dry' | 'oily' | 'combination' | 'sensitive' | 'normal';\n  acneLevel: 'none' | 'mild' | 'moderate' | 'severe';\n  aestheticGoals: string[];\n  concerns: string[];\n  sleepHours: number;\n  waterConsumption: number;\n  stressLevel: 'low' | 'medium' | 'high';\n  dietType: string;\n  currentSkinRoutine: string;\n  useSunscreen: boolean;\n  availableTimeDaily: number;\n  profileImage?: string;\n  createdAt: Date;\n  updatedAt: Date;\n}\n\n// Habit Types\nexport interface Habit {\n  id: string;\n  userId: string;\n  name: string;\n  description: string;\n  category: 'skincare' | 'sleep' | 'hydration' | 'exercise' | 'nutrition' | 'stress' | 'misc';\n  frequency: 'daily' | 'weekly' | 'custom';\n  completedToday: boolean;\n  completedDates: string[];\n  createdAt: Date;\n  updatedAt: Date;\n}\n\n// Facial Analysis Types\nexport interface FacialAnalysis {\n  id: string;\n  userId: string;\n  date: Date;\n  images: {\n    frontal: string;\n    profileLeft: string;\n    profileRight: string;\n    angle45Left: string;\n    angle45Right: string;\n  };\n  metrics: {\n    symmetry: number;\n    skinQuality: number;\n    imperfections: number;\n    darkCircles: number;\n    greasiness: number;\n    redness: number;\n    toneUniformity: number;\n    hydration: number;\n    jawlineDefinition: number;\n    beardQuality?: number;\n    eyebrowsQuality?: number;\n    lipsQuality: number;\n    smileQuality: number;\n  };\n  overallScore: number;\n  observations: string;\n  createdAt: Date;\n}\n\n// Chat/Message Types\nexport interface ChatMessage {\n  id: string;\n  userId: string;\n  role: 'user' | 'assistant';\n  content: string;\n  timestamp: Date;\n  isRead?: boolean;\n}\n\nexport interface DailyMessageLimit {\n  userId: string;\n  date: string;\n  messagesUsed: number;\n  limit: number;\n  resetTime: Date;\n}\n\n// Progress/Statistics Types\nexport interface ProgressScore {\n  userId: string;\n  date: string;\n  habitsCompleted: number;\n  totalHabits: number;\n  facialScore: number;\n  consistency: number;\n  overallScore: number;\n}\n\n// Diary Types\nexport interface DiaryEntry {\n  id: string;\n  userId: string;\n  title: string;\n  content: string;\n  images?: string[];\n  tags: string[];\n  date: Date;\n  createdAt: Date;\n  updatedAt: Date;\n}\n\n// Plan Types\nexport interface PersonalPlan {\n  id: string;\n  userId: string;\n  recommendations: {\n    category: string;\n    description: string;\n    frequency?: string;\n  }[];\n  createdAt: Date;\n  updatedAt: Date;\n}\n\n// API Response Types\nexport interface ApiResponse<T> {\n  success: boolean;\n  data?: T;\n  error?: string;\n  timestamp: Date;\n}\n
+// User and Authentication Types
+export interface User {
+  id: string;
+  email: string;
+  name: string;
+  avatar?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+// Facial Analysis Types
+export interface FacialAnalysis {
+  id: string;
+  userId: string;
+  imageUri: string;
+  timestamp: string;
+  emotions: EmotionData;
+  facialFeatures: FacialFeatures;
+  confidence: number;
+  recommendations?: string[];
+}
+
+export interface EmotionData {
+  happiness: number;
+  sadness: number;
+  anger: number;
+  fear: number;
+  surprise: number;
+  disgust: number;
+  neutral: number;
+  dominant: 'happiness' | 'sadness' | 'anger' | 'fear' | 'surprise' | 'disgust' | 'neutral';
+}
+
+export interface FacialFeatures {
+  age: number;
+  gender: 'male' | 'female';
+  ethnicity?: string;
+  faceQuality: number;
+  landmarks?: FacialLandmark[];
+}
+
+export interface FacialLandmark {
+  name: string;
+  x: number;
+  y: number;
+}
+
+// Habits Types
+export interface Habit {
+  id: string;
+  userId: string;
+  name: string;
+  description?: string;
+  category: string;
+  frequency: 'daily' | 'weekly' | 'monthly';
+  color?: string;
+  isCompleted: boolean;
+  completedDates: string[];
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface HabitStats {
+  totalCompleted: number;
+  currentStreak: number;
+  longestStreak: number;
+  completionRate: number;
+}
+
+// Chat Types
+export interface ChatMessage {
+  id: string;
+  userId: string;
+  message: string;
+  response: string;
+  emotionContext?: EmotionData;
+  timestamp: string;
+}
+
+export interface DailyMessageLimit {
+  used: number;
+  limit: number;
+  resetTime: string;
+}
+
+// Auth State Types
+export interface AuthState {
+  user: User | null;
+  token: string | null;
+  isLoading: boolean;
+  error: string | null;
+  isAuthenticated: boolean;
+}
+
+// Habits State Types
+export interface HabitsState {
+  habits: Habit[];
+  isLoading: boolean;
+  error: string | null;
+}
+
+// Analysis State Types
+export interface AnalysisState {
+  analyses: FacialAnalysis[];
+  currentAnalysis: FacialAnalysis | null;
+  isLoading: boolean;
+  error: string | null;
+}
+
+// API Response Types
+export interface ApiResponse<T> {
+  success: boolean;
+  data?: T;
+  error?: string;
+  message?: string;
+}
+
+export interface PaginatedResponse<T> {
+  data: T[];
+  total: number;
+  page: number;
+  limit: number;
+}
