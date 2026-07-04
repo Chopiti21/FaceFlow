@@ -1,0 +1,1 @@
+node_modules/\n.pnp\n.pnp.js\ncoverage/\nbuild/\ndist/\n.expo/\n.expo-shared/\n.DS_Store\n*.pem\n*.env\n*.env.local\n*.env.*.local\n.vscode/\n.idea/\n*.swp\n*.swo\n*~\n.firebase/\n.firebaserc\nyarn-error.log\n.yarn/cache\n.yarn/unplugged\n.yarn/build-state.yml\n.yarn/install-state.gz\nlogs/\n*.log\nnpm-debug.log*\nyarn-debug.log*\nyarn-error.log*\nThumbs.db\n
